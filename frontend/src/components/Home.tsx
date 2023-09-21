@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
 
 type DataItemType = {
-	data: string;
+	data: any;
 	// index: number;
 };
 
@@ -13,9 +13,9 @@ const Home = () => {
 		<div className="home">
 			<div className="section">
 				{value &&
-					value.map((data: DataItemType, index: number) => (
+					value.data.map((data: DataItemType, index: number) => (
 						<div key={index}>
-							<div className="text-black">{data.data}</div>
+							<div className="text-black">{data.data.meanings}</div>
 						</div>
 					))}
 			</div>

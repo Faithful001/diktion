@@ -1,22 +1,29 @@
-import { createContext, useState, ReactNode } from "react";
+import {
+	createContext,
+	useState,
+	ReactNode,
+	Dispatch,
+	SetStateAction,
+} from "react";
 
 type DataItemType = {
-	data: string;
+	data: any;
 	// index: number;
 };
 
-type DataContextValue = {
-	value: DataItemType[];
-	setValue: React.Dispatch<React.SetStateAction<DataItemType[]>>;
+export type DataContextValue = {
+	value: DataItemType;
+	setValue: Dispatch<SetStateAction<DataItemType>>;
 };
 
-export const DataContext = createContext<DataContextValue>({
-	value: [],
-	setValue: () => {},
-});
+export const DataContext = createContext<Partial<DataContextValue>>({});
 
-export const DataContextProvider = ({ children }: { children: ReactNode }) => {
-	const [value, setValue] = useState<DataItemType[]>([]);
+type DataContextProviderProps = {
+	children: ReactNode;
+};
+
+export const DataContextProvider = ({ children }: DataContextProviderProps) => {
+	const [value, setValue] = useState<DataItemType>({ data: [] });
 	return (
 		<DataContext.Provider value={{ value, setValue }}>
 			{children}
