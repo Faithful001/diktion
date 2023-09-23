@@ -25,7 +25,8 @@ const NavBar = ({ name }: AppName) => {
 					`https://api.dictionaryapi.dev/api/v2/entries/en/${search}`
 				);
 				console.log(response.data);
-				if (setValue) setValue(response.data);
+
+				if (setValue) setValue({ data: [response.data] });
 			} catch (error) {
 				console.log(error);
 			}
