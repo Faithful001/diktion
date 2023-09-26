@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.welcome {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

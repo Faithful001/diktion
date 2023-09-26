@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { DataContext } from "../context/DataContext";
 import { useContext } from "react";
@@ -14,8 +14,9 @@ type AppName = {
 // };
 
 const NavBar = ({ name }: AppName) => {
-	const { setValue } = useContext(DataContext);
-	const [search, setSearch] = useState("");
+	const { setValue = () => {}, setNotValue = () => {} } =
+		useContext(DataContext);
+	const [search, setSearch] = useState<string>("");
 	console.log(search);
 
 	const handleSearch = async () => {
@@ -26,27 +27,63 @@ const NavBar = ({ name }: AppName) => {
 				);
 				console.log(response.data);
 
-				if (setValue) setValue({ data: [response.data] });
-			} catch (error) {
-				console.log(error);
+				if (setValue) setValue({ data: response.data });
+			} catch (error: any) {
+				if (setNotValue) setNotValue({ error: error.response.data });
+				console.log(error.response.data);
 			}
 		}
 	};
 
-	const { isLoading, data } = useQuery(["search"], handleSearch);
-
+	const { isLoading, data } = useQuery(["search"], handleSearch, {
+		enabled: Boolean(setValue),
+	});
 	console.log(isLoading, data);
+
+	const handleFormSearch = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		handleSearch();
+	};
+
+	const handleSpanSearch = (
+		e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+	) => {
+		e.preventDefault();
+		handleFormSearch(e as any);
+	};
+
+	const emptyObject = () => {
+		setValue({ data: [] });
+		setNotValue({ error: [] });
+	};
+	// if (isLoading) {
+	// 	return <div>Loading...</div>;
+	// }
 
 	return (
 		<div className="navbar bg-[#0B66C3] p-5 text-white">
 			<div className="section flex justify-between font">
-				<div className="NavBar font-normal">{name}</div>
-				<input
-					type="text"
-					className="rounded-md w-[300px] h-7 text-black p-2"
-					onChange={(e) => setSearch(e.target.value)}
-				/>
-				<span className="material-symbols-outlined hover:bg-[#e4e4e485] hover:rounded-lg flex items-center justify-center cursor-pointer">
+				<div
+					className="NavBar font-bold mt-2 cursor-pointer"
+					onClick={emptyObject}
+				>
+					{name}
+				</div>
+				<form onSubmit={handleFormSearch}>
+					<input
+						type="text"
+						className="rounded-md w-[300px] h-10 text-white p-2 bg-[#2a5683]"
+						onChange={(e) => setSearch(e.target.value)}
+						placeholder="Search for a word fella"
+					/>
+					<span
+						className="material-symbols-outlined relative right-10 top-[6px] p-2 hover:cursor-pointer rounded-md hover:bg-[#e4e4e42c] "
+						onClick={handleSpanSearch}
+					>
+						search
+					</span>
+				</form>
+				<span className="material-symbols-outlined hover:bg-[#e4e4e485] p-2 rounded-lg flex items-center justify-center cursor-pointer">
 					expand_more
 				</span>
 			</div>
