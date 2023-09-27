@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import NavBar from "./components/NavBar";
-import Home from "./components/Home";
+import Result from "./components/Result";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
 
 function App() {
 	const queryClient = new QueryClient();
@@ -11,8 +12,8 @@ function App() {
 				<QueryClientProvider client={queryClient}>
 					<NavBar name="diktion" />
 					<Routes>
-						{/* <div className="m-5"></div> */}
 						<Route path="/" element={<Home />} />
+						<Route path="/result" element={<Result />} />
 					</Routes>
 				</QueryClientProvider>
 			</Router>

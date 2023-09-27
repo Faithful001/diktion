@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { DataContext } from "../context/DataContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 type AppName = {
 	name: string;
@@ -18,6 +19,7 @@ const NavBar = ({ name }: AppName) => {
 		useContext(DataContext);
 	const [search, setSearch] = useState<string>("");
 	console.log(search);
+	const navigate = useNavigate();
 
 	const handleSearch = async () => {
 		if (search !== "") {
@@ -43,6 +45,7 @@ const NavBar = ({ name }: AppName) => {
 	const handleFormSearch = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		handleSearch();
+		navigate("/result");
 	};
 
 	const handleSpanSearch = (
@@ -50,11 +53,13 @@ const NavBar = ({ name }: AppName) => {
 	) => {
 		e.preventDefault();
 		handleFormSearch(e as any);
+		navigate("/result");
 	};
 
 	const emptyObject = () => {
 		setValue({ data: [] });
 		setNotValue({ error: [] });
+		navigate("/");
 	};
 	// if (isLoading) {
 	// 	return <div>Loading...</div>;
