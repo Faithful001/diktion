@@ -1,9 +1,12 @@
+"use client";
 import axios from "axios";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { DataContext } from "../context/DataContext";
+import { useTheme } from "../context/ThemeContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToggleSwitch } from "flowbite-react";
 
 type AppName = {
 	name: string;
@@ -17,8 +20,15 @@ type AppName = {
 const NavBar = ({ name }: AppName) => {
 	const { setValue = () => {}, setNotValue = () => {} } =
 		useContext(DataContext);
+
+	const { theme, toggleTheme } = useTheme(); //dark theme by default
+	console.log(theme);
+
 	const [search, setSearch] = useState<string>("");
-	console.log(search);
+	// console.log(search);
+
+	const [dropDown, setDropDown] = useState<boolean>(false); //closed by default
+	const [checked, setChecked] = useState<boolean>(true); //checked by default
 	const navigate = useNavigate();
 
 	const handleSearch = async () => {
@@ -61,9 +71,15 @@ const NavBar = ({ name }: AppName) => {
 		setNotValue({ error: [] });
 		navigate("/");
 	};
-	// if (isLoading) {
-	// 	return <div>Loading...</div>;
-	// }
+
+	const handleDropDown = () => {
+		setDropDown(!dropDown);
+	};
+
+	const changeTheme = () => {
+		setChecked(!checked);
+		toggleTheme();
+	};
 
 	return (
 		<div className="navbar bg-[#0B66C3] p-5 text-white">
@@ -88,9 +104,20 @@ const NavBar = ({ name }: AppName) => {
 						search
 					</span>
 				</form>
-				<span className="material-symbols-outlined hover:bg-[#e4e4e485] p-2 rounded-lg flex items-center justify-center cursor-pointer">
+				<span
+					className="material-symbols-outlined hover:bg-[#e4e4e485] p-2 rounded-lg flex items-center justify-center cursor-pointer"
+					onClick={handleDropDown}
+				>
 					expand_more
 				</span>
+				{dropDown && (
+					<div className="bg-white rounded-md p-10 pt-20 pb-20 flex items-center justify-center flex-col absolute right-5 top-[72px]">
+						<p className="text-black">Dark Mode</p>
+						<div className="flex max-w-md flex-col gap-4" id="toggle">
+							<ToggleSwitch checked={checked} label="" onChange={changeTheme} />
+						</div>
+					</div>
+				)}
 			</div>
 			<div className="body"></div>
 		</div>
