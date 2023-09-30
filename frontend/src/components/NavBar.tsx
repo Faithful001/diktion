@@ -1,4 +1,5 @@
 "use client";
+import { ToggleSwitch } from "flowbite-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
@@ -6,16 +7,10 @@ import { DataContext } from "../context/DataContext";
 import { useTheme } from "../context/ThemeContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToggleSwitch } from "flowbite-react";
 
 type AppName = {
 	name: string;
 };
-
-// type DataContextValue = {
-// 	value: string;
-// 	setValue: React.Dispatch<React.SetStateAction<string>>;
-// };
 
 const NavBar = ({ name }: AppName) => {
 	const { setValue = () => {}, setNotValue = () => {} } =
@@ -91,18 +86,20 @@ const NavBar = ({ name }: AppName) => {
 					{name}
 				</div>
 				<form onSubmit={handleFormSearch}>
-					<input
-						type="text"
-						className="rounded-md w-[300px] h-10 text-white p-2 bg-[#2a5683]"
-						onChange={(e) => setSearch(e.target.value)}
-						placeholder="Search for a word fella"
-					/>
-					<span
-						className="material-symbols-outlined relative right-10 top-[6px] p-2 hover:cursor-pointer rounded-md hover:bg-[#e4e4e42c] "
-						onClick={handleSpanSearch}
-					>
-						search
-					</span>
+					<div className="relative">
+						<input
+							type="text"
+							className="rounded-md w-[180px] ml-5s md:w-[300px] h-10 text-white p-2 bg-[#2a5683]"
+							onChange={(e) => setSearch(e.target.value)}
+							placeholder="Search for a word fella"
+						/>
+						<span
+							className="material-symbols-outlined absolute right-0 md:right-0 p-2 hover:cursor-pointer rounded-md hover:bg-[#e4e4e42c] "
+							onClick={handleSpanSearch}
+						>
+							search
+						</span>
+					</div>
 				</form>
 				<span
 					className="material-symbols-outlined hover:bg-[#e4e4e485] p-2 rounded-lg flex items-center justify-center cursor-pointer"
@@ -111,8 +108,11 @@ const NavBar = ({ name }: AppName) => {
 					expand_more
 				</span>
 				{dropDown && (
-					<div className="bg-white rounded-md p-10 pt-20 pb-20 flex items-center justify-center flex-col absolute right-5 top-[72px]">
-						<p className="text-black">Dark Mode</p>
+					<div
+						className="bg-white rounded-md p-10 pt-20 pb-20 flex items-center justify-center flex-col
+					 absolute right-5 top-[72px]"
+					>
+						<p className="text-black">{theme ? "Light Mode" : "Dark Mode"}</p>
 						<div className="flex max-w-md flex-col gap-4" id="toggle">
 							<ToggleSwitch checked={checked} label="" onChange={changeTheme} />
 						</div>

@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
+import { useTheme } from "../context/ThemeContext";
 
 const Result = () => {
+	const { theme } = useTheme();
 	const {
 		value,
 		notValue,
@@ -23,7 +25,11 @@ const Result = () => {
 	const word = data?.word?.toUpperCase();
 
 	return (
-		<div className="home bg-[#202020] text-[#d8d8d8] h-[100vh]">
+		<div
+			className={`home ${
+				theme ? "bg-[#202020]" : "bg-[#e7e7e7]"
+			} text-[#d8d8d8] h-[100vh]`}
+		>
 			{value?.data.length > 0 ? (
 				<div className="section p-5 pt-10">
 					<div className="word font-bold text-3xl text-[#6ab4ff]">{word}</div>
