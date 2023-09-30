@@ -32,8 +32,8 @@ const Result = () => {
 		>
 			{value?.data.length > 0 ? (
 				<div className="section p-5 pt-10">
-					<div className="word font-bold text-3xl text-[#6ab4ff]">{word}</div>
-					<div className="word text-[#6ab4ff] mb-5">{data?.phonetic}</div>
+					<div className="word font-bold text-3xl text-[#3679bd]">{word}</div>
+					<div className="word text-[#3679bd] mb-5">{data?.phonetic}</div>
 
 					{data?.phonetics && data?.phonetics.length > 2 && (
 						<div className="phonetics mb-5">
@@ -47,12 +47,15 @@ const Result = () => {
 					{data?.meanings &&
 						data?.meanings.map((meaning: any, index: number) => (
 							<div key={index} className="">
-								<div className="part-of-speech text-[#6ab4ff]">
+								<div className="part-of-speech text-[#3679bd]">
 									{meaning?.partOfSpeech}
 								</div>
 								{meaning?.definitions.map(
 									(element: any, definitionIndex: number) => (
-										<div className="" key={definitionIndex}>
+										<div
+											className={`${theme ? "text-white" : "text-black"}`}
+											key={definitionIndex}
+										>
 											{element?.definition || "No definition available"}
 										</div>
 									)

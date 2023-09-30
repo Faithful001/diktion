@@ -110,7 +110,7 @@ const NavBar = ({ name }: AppName) => {
 				{dropDown && (
 					<div
 						className="bg-white rounded-md p-10 pt-20 pb-20 flex items-center justify-center flex-col
-					 absolute right-5 top-[72px]"
+					 absolute right-5 top-[72px] z-10"
 					>
 						<p className="text-black">{theme ? "Light Mode" : "Dark Mode"}</p>
 						<div className="flex max-w-md flex-col gap-4" id="toggle">
